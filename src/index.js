@@ -7,7 +7,6 @@ import imageCardMarkup from './js/makeMarkup';
 import apiService from './js/apiService';
 
 import loadMoreBtn from './js/components/load-more-btn';
-import lasyLoadImages from './js/lazy-load';
 import scrollTo from './js/components/scroll-to';
 
 // import throttle from 'lodash.throttle';
@@ -21,7 +20,7 @@ import * as basicLightbox from 'basiclightbox';
 import 'basiclightbox/dist/basicLightbox.min.css';
 
 refs.searchForm.addEventListener('submit', searchFormSubmitHandler);
-refs.btnLoadMore.addEventListener('click', btnLoadMoreHandler);
+// refs.btnLoadMore.addEventListener('click', btnLoadMoreHandler);
 refs.galleryContainer.addEventListener('click', largeImageHandler);
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -43,6 +42,8 @@ function searchFormSubmitHandler(event) {
   clearGalleryContainer();
 
   apiService.resetPage();
+
+  lasyLoadImages();
 
   const height = 115;
   fetchCardList(height);
@@ -98,13 +99,11 @@ function fetchCardList(height) {
 
       loadMoreBtn.hide();
       return;
+    } else if (refs.galleryContainer.children.length < 12) {
+      noticeInfo();
     }
 
-    noticeInfo();
-
     imageCardMarkup(hits);
-
-    lasyLoadImages();
 
     loadMoreBtn.show();
     loadMoreBtn.enable();
@@ -118,6 +117,7 @@ function fetchCardList(height) {
 
 function clearGalleryContainer() {
   refs.galleryContainer.innerHTML = '';
+  refs.btnLoadMore.classList.add('is-hidden');
 }
 
 function noticeInfo() {
@@ -154,4 +154,26 @@ function scrollOnTopHandler(event) {
   } else {
     refs.scrollOnTopBtn.classList.remove('show');
   }
+}
+
+function lasyLoadImages() {
+  const options = {
+    threshold: 1,
+  };
+
+  const onEntry = entries => {
+    entries.forEach(entry => {
+      if (entry.target.hasAttribute('disabled')) {
+        return;
+      }
+
+      if (entry.isIntersecting) {
+        console.log(entry);
+        btnLoadMoreHandler();
+      }
+    });
+  };
+
+  const io = new IntersectionObserver(onEntry, options);
+  io.observe(refs.btnLoadMore);
 }
