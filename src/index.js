@@ -7,6 +7,7 @@ import imageCardMarkup from './js/makeMarkup';
 import apiService from './js/apiService';
 
 import loadMoreBtn from './js/components/load-more-btn';
+import lasyLoadImages from './js/lazy-load';
 import scrollTo from './js/components/scroll-to';
 
 // import throttle from 'lodash.throttle';
@@ -144,37 +145,6 @@ function noticeError() {
 
     sticker: false,
   });
-}
-
-function lasyLoadImages() {
-  const images = document.querySelectorAll('.js-gallery img');
-
-  const lazyLoad = targets => {
-    const options = {
-      rootMargin: '200px',
-    };
-
-    const onEntry = (entries, observer) => {
-      // console.log('next images');
-
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const image = entry.target;
-          const src = image.dataset.lazy;
-
-          image.src = src;
-
-          observer.unobserve(image);
-        }
-      });
-    };
-
-    const io = new IntersectionObserver(onEntry, options);
-
-    targets.forEach(target => io.observe(target));
-  };
-
-  lazyLoad(images);
 }
 
 function scrollOnTopHandler(event) {
