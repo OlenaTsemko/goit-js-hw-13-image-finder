@@ -1,3 +1,5 @@
+import 'intersection-observer';
+
 import './sass/styles.scss';
 
 import refs from './js/refs';
@@ -5,6 +7,10 @@ import imageCardMarkup from './js/makeMarkup';
 import apiService from './js/apiService';
 
 import loadMoreBtn from './js/components/load-more-btn';
+import scrollTo from './js/components/scroll-to';
+
+// import throttle from 'lodash.throttle';
+import debounce from 'lodash.debounce';
 
 import { info, error } from '@pnotify/core';
 import '@pnotify/core/dist/PNotify.css';
@@ -16,6 +22,16 @@ import 'basiclightbox/dist/basicLightbox.min.css';
 refs.searchForm.addEventListener('submit', searchFormSubmitHandler);
 refs.btnLoadMore.addEventListener('click', btnLoadMoreHandler);
 refs.galleryContainer.addEventListener('click', largeImageHandler);
+
+document.addEventListener('DOMContentLoaded', () => {
+  window.addEventListener('scroll', debounce(scrollOnTopHandler, 500));
+
+  // При клике прокручиываем на самый верх
+  refs.scrollOnTopBtn.addEventListener('click', event => {
+    event.preventDefault();
+    scrollTo(0, 400);
+  });
+});
 
 function searchFormSubmitHandler(event) {
   event.preventDefault();
@@ -139,7 +155,7 @@ function lasyLoadImages() {
     };
 
     const onEntry = (entries, observer) => {
-      console.log('next images');
+      // console.log('next images');
 
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -159,4 +175,13 @@ function lasyLoadImages() {
   };
 
   lazyLoad(images);
+}
+
+function scrollOnTopHandler(event) {
+  // console.log(event);
+  if (pageYOffset > window.innerHeight) {
+    refs.scrollOnTopBtn.classList.add('show');
+  } else {
+    refs.scrollOnTopBtn.classList.remove('show');
+  }
 }

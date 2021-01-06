@@ -48,7 +48,7 @@ img {
 }
 
 .container-wrapper {
-  padding: 30px 30px;
+  padding: 30px 70px;
 
   text-align: center;
 }
@@ -198,4 +198,27 @@ button[disabled] {
   100% {
     transform: rotate(360deg);
   }
+}
+
+// scroll top
+#toTop {
+  position: fixed;
+  display: flex;
+  bottom: 30px;
+  right: -40px;
+  width: 40px;
+  height: 40px;
+  z-index: 1000;
+  cursor: pointer;
+  text-align: center;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+#toTop.show {
+  opacity: 1;
+  visibility: visible;
+  right: calc(2%);
 }
