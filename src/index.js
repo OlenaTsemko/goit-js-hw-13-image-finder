@@ -105,13 +105,18 @@ function fetchCardList(height) {
 
     imageCardMarkup(hits);
 
-    loadMoreBtn.show();
-    loadMoreBtn.enable();
-
     window.scrollBy({
       top: height,
       behavior: 'smooth',
     });
+
+    if (hits.length < 12) {
+      loadMoreBtn.hide();
+      return;
+    }
+
+    loadMoreBtn.show();
+    loadMoreBtn.enable();
   });
 }
 
