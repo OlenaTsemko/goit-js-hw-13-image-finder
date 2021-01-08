@@ -17,9 +17,13 @@ body {
 
   font-size: 24px;
 
-  background-image: url(../images/1603516194_29-p-krasivie-foni-v-pastelnikh-tonakh-34.jpg);
+  background-image: url(../images/for-bcg.jpg);
+
+  @media screen and (min-width: 900px) {
+    background-size: cover;
+  }
+
   background-repeat: no-repeat;
-  background-size: cover;
 }
 
 ul {
@@ -48,7 +52,7 @@ img {
 }
 
 .container-wrapper {
-  padding: 30px 70px;
+  // padding: 30px 70px;
 
   text-align: center;
 }
@@ -56,8 +60,6 @@ img {
 .gallery {
   padding: 0;
   margin: 30px 0;
-  display: flex;
-  flex-wrap: wrap;
 }
 
 .photo-card {
@@ -86,19 +88,9 @@ img {
 }
 
 .card-item {
-  width: calc((100% - 30px) / 3);
-
   border: 1px solid $accentColor;
   border-radius: 8px;
   overflow: hidden;
-
-  &:not(:nth-child(3n)) {
-    margin-right: 15px;
-  }
-
-  &:not(:nth-last-child(-n + 3)) {
-    margin-bottom: 15px;
-  }
 
   &:hover {
     box-shadow: 16px 18px 28px 8px rgba(0, 0, 0, 0.38);
@@ -221,4 +213,38 @@ button[disabled] {
   opacity: 1;
   visibility: visible;
   right: calc(2%);
+}
+
+@media screen and (max-width: 767px) {
+  .container-wrapper {
+    padding: 20px 30px;
+  }
+
+  .card-item:not(:last-child) {
+    margin-bottom: 15px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .container-wrapper {
+    padding: 30px 70px;
+  }
+
+  .gallery {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .card-item {
+    width: calc((100% - 30px) / 3);
+    margin-bottom: 15px;
+
+    &:not(:nth-child(3n)) {
+      margin-right: 15px;
+    }
+
+    // &:not(:nth-last-child(-n + 3)) {
+    //   margin-bottom: 15px;
+    // }
+  }
 }
