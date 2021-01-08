@@ -93,13 +93,13 @@ function largeImageHandler(event) {
 function fetchCardList(height) {
   loadMoreBtn.disable();
 
-  apiService.fetchCards().then(hits => {
-    if (hits.length === 0) {
+  apiService.fetchCards().then(({ hits, totalHits }) => {
+    if (totalHits === 0) {
       noticeError();
 
       loadMoreBtn.hide();
       return;
-    } else if (refs.galleryContainer.children.length < 12) {
+    } else if (refs.galleryContainer.children.length < apiService.perPage) {
       noticeInfo();
     }
 
@@ -110,7 +110,7 @@ function fetchCardList(height) {
       behavior: 'smooth',
     });
 
-    if (hits.length < 12) {
+    if (totalHits <= apiService.perPage) {
       loadMoreBtn.hide();
       return;
     }

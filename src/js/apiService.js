@@ -3,15 +3,16 @@ const apiKey = '19750317-f167cae8029dbba7a5b9e2fed';
 export default {
   searchQuery: '',
   page: 1,
+  perPage: 12,
 
   fetchCards() {
-    const url = `https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${this.query}&page=${this.page}&per_page=12&key=${apiKey}`;
+    const url = `https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${this.query}&page=${this.page}&per_page=${this.perPage}&key=${apiKey}`;
 
     return fetch(url)
       .then(res => res.json())
-      .then(({ hits }) => {
+      .then(({ hits, totalHits }) => {
         this.incrementPage();
-        return hits;
+        return { hits, totalHits };
       });
   },
 
