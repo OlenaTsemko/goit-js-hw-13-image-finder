@@ -19,6 +19,10 @@ body {
 
   background-image: url(../images/for-bcg.jpg);
 
+  @media screen and (max-width: 899px) {
+    background-attachment: fixed;
+  }
+
   @media screen and (min-width: 900px) {
     background-size: cover;
   }

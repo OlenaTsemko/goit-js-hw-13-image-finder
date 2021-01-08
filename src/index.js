@@ -48,7 +48,7 @@ function searchFormSubmitHandler(event) {
   const height = 115;
   fetchCardList(height);
 
-  form.reset();
+  // form.reset();
 }
 
 function btnLoadMoreHandler() {
