@@ -17,6 +17,10 @@ body {
 
   font-size: 24px;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   background-image: url(../images/for-bcg.jpg);
 
   @media screen and (max-width: 899px) {
@@ -216,7 +220,7 @@ button[disabled] {
 #toTop.show {
   opacity: 1;
   visibility: visible;
-  right: calc(2%);
+  right: calc(1.5%);
 }
 
 @media screen and (max-width: 767px) {
@@ -250,5 +254,29 @@ button[disabled] {
     // &:not(:nth-last-child(-n + 3)) {
     //   margin-bottom: 15px;
     // }
+  }
+}
+
+.pagination-wrapper {
+  position: fixed;
+
+  display: flex;
+
+  // justify-content: center;
+  // text-align: center;
+
+  &.is-hidden {
+    display: none;
+  }
+
+  ul {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    bottom: calc(10%);
+    left: calc(1%);
+    z-index: 1000;
+    cursor: pointer;
+    text-align: center;
   }
 }

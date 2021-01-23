@@ -1,5 +1,5 @@
 import 'intersection-observer';
-
+import 'paginationjs/dist/pagination.css';
 import './sass/styles.scss';
 
 import refs from './js/refs';
@@ -18,6 +18,45 @@ import '@pnotify/core/dist/BrightTheme.css';
 
 import * as basicLightbox from 'basiclightbox';
 import 'basiclightbox/dist/basicLightbox.min.css';
+
+// pagination
+// =====================================================
+import paginationObject from './js/components/pagination';
+
+let totalHitsPagination = 0;
+
+function showtotalHits(totalHitsPagination) {
+  paginationObject.totalNumber = totalHitsPagination;
+  // console.log(totalHitsPagination);
+}
+
+const paginationWrapper = document.querySelector('.pagination-wrapper');
+// console.log('paginationWrapper', paginationWrapper);
+
+paginationWrapper.addEventListener('mousedown', onClickPageHandler);
+
+function onClickPageHandler(event) {
+  event.preventDefault();
+  // console.log(event.target.parentNode);
+
+  if (event.target.parentNode.classList.contains('paginationjs-ellipsis')) {
+    console.log(event.target.parentNode.dataset.num);
+
+    return;
+  }
+
+  if (event.target.nodeName !== 'A') {
+    return;
+  }
+
+  apiService.page = +event.target.parentNode.dataset.num;
+
+  clearGalleryContainer();
+
+  const height = 115;
+  fetchCardList(height);
+}
+// ====================================================
 
 refs.searchForm.addEventListener('submit', searchFormSubmitHandler);
 // refs.btnLoadMore.addEventListener('click', btnLoadMoreHandler);
@@ -92,10 +131,16 @@ function largeImageHandler(event) {
 
 function fetchCardList(height) {
   loadMoreBtn.disable();
+  paginationObject.pageNumber = apiService.page;
 
   apiService.fetchCards().then(({ hits, totalHits }) => {
+    totalHitsPagination = totalHits;
+    showtotalHits(totalHitsPagination);
+
     if (totalHits === 0) {
       noticeError();
+
+      paginationWrapper.classList.add('is-hidden');
 
       loadMoreBtn.hide();
       return;
@@ -103,20 +148,32 @@ function fetchCardList(height) {
       noticeInfo();
     }
 
+    paginationWrapper.classList.remove('is-hidden');
+
     imageCardMarkup(hits);
+
+    $('#pagination').pagination(paginationObject);
 
     window.scrollBy({
       top: height,
       behavior: 'smooth',
     });
 
-    if (totalHits <= apiService.perPage) {
+    if (totalHits <= apiService.perPage || hits.length < apiService.perPage) {
+      paginationWrapper.classList.add('is-hidden');
       loadMoreBtn.hide();
       return;
     }
 
     loadMoreBtn.show();
     loadMoreBtn.enable();
+
+    if (
+      paginationObject.pageNumber ===
+      Math.ceil(paginationObject.totalNumber / apiService.perPage)
+    ) {
+      loadMoreBtn.hide();
+    }
   });
 }
 
@@ -173,8 +230,9 @@ function lasyLoadImages() {
       }
 
       if (entry.isIntersecting) {
-        console.log(entry);
+        // console.log(entry);
         btnLoadMoreHandler();
+        paginationObject.pageNumber = apiService.page;
       }
     });
   };

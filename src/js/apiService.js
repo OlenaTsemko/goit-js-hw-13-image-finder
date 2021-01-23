@@ -12,8 +12,10 @@ export default {
       .then(res => res.json())
       .then(({ hits, totalHits }) => {
         this.incrementPage();
+
         return { hits, totalHits };
-      });
+      })
+      .catch(error => console.log('error', error));
   },
 
   resetPage() {
