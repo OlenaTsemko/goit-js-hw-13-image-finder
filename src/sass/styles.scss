@@ -17,6 +17,10 @@ body {
 
   font-size: 24px;
 
+  @media screen and (max-width: 480px) {
+    font-size: 18px;
+  }
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -68,12 +72,23 @@ img {
 .gallery {
   padding: 0;
   margin: 30px 0;
+
+  @media screen and (max-width: 480px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .photo-card {
   img {
     height: 250px;
     object-fit: cover;
+
+    @media screen and (max-width: 480px) {
+      height: 150px;
+    }
   }
 
   .stats {
@@ -102,6 +117,14 @@ img {
 
   &:hover {
     box-shadow: 16px 18px 28px 8px rgba(0, 0, 0, 0.38);
+  }
+
+  @media screen and (max-width: 480px) {
+    width: 300px;
+  }
+
+  @media screen and (max-width: 400px) {
+    width: 250px;
   }
 }
 
@@ -154,6 +177,13 @@ button[disabled] {
   height: 60px;
   border-radius: 100px;
   font-size: 20px;
+
+  @media screen and (max-width: 480px) {
+    width: 200px;
+    height: 50px;
+
+    font-size: 14px;
+  }
 }
 
 .form-element,
@@ -178,6 +208,11 @@ button[disabled] {
   width: 60px;
   height: 60px;
   border-radius: 100%;
+
+  @media screen and (max-width: 480px) {
+    width: 50px;
+    height: 50px;
+  }
 }
 
 .btn-load-more {
@@ -221,6 +256,10 @@ button[disabled] {
   opacity: 1;
   visibility: visible;
   right: calc(1.5%);
+
+  @media screen and (max-width: 480px) {
+    right: calc(2%);
+  }
 }
 
 @media screen and (max-width: 767px) {
@@ -257,6 +296,7 @@ button[disabled] {
   }
 }
 
+// pagination
 .pagination-wrapper {
   position: fixed;
 
@@ -274,9 +314,62 @@ button[disabled] {
     display: flex;
     flex-direction: column;
     bottom: calc(10%);
+
     left: calc(1%);
+
+    @media screen and (max-width: 480px) {
+      left: calc(2%);
+    }
+
     z-index: 1000;
     cursor: pointer;
     text-align: center;
   }
+}
+
+.paginationjs .paginationjs-pages li.disabled > a {
+  display: none;
+  opacity: 0.3;
+}
+
+.paginationjs.paginationjs-theme-blue .paginationjs-pages li {
+  margin: 5px;
+  /* margin: 20px 5px; */
+  border-color: #dee2e6;
+  border-radius: 50px;
+}
+
+.paginationjs.paginationjs-theme-blue .paginationjs-pages li > a {
+  /* color: #617799; */
+  text-shadow: 7px 3px 8px rgba(0, 0, 0, 0.61);
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  border-radius: inherit;
+}
+
+.pagination-wrapper .paginationjs-pages li.paginationjs-ellipsis > a {
+  display: block;
+}
+
+.paginationjs .paginationjs-pages li.disabled {
+  border: none;
+}
+
+.paginationjs.paginationjs-theme-blue .paginationjs-pages li > a {
+  color: #617799;
+}
+.paginationjs.paginationjs-theme-blue .paginationjs-pages li > a:hover {
+  background: #e9f4fc;
+}
+.paginationjs.paginationjs-theme-blue .paginationjs-pages li.active > a {
+  background: #617799;
+  color: #fff;
+  background-image: linear-gradient(120deg, #a9c0da 0%, #617799 100%);
+}
+.paginationjs.paginationjs-theme-blue
+  .paginationjs-go-button
+  > input[type='button'] {
+  background: #617799;
+  border-color: #617799;
+  color: #fff;
 }
